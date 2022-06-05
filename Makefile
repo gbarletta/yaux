@@ -1,4 +1,4 @@
-OBJS = boot.o main.o memory.o paging.o uart.o
+OBJS = boot.o main.o memory.o paging.o supervisor.o uart.o
 SOURCE = main.c memory.c paging.c uart.c
 OUT = kernel.elf
 AS = riscv64-unknown-elf-as
@@ -17,6 +17,9 @@ kernel.elf: link.ld $(OBJS)
 
 boot.o: boot.s
 	$(AS) $(ASFLAGS) boot.s -o boot.o 
+
+supervisor.o: supervisor.s
+	$(AS) $(ASFLAGS) supervisor.s -o supervisor.o 
 
 main.o: main.c
 	$(CC) $(CFLAGS) main.c

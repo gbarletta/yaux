@@ -4,15 +4,15 @@ void uart_init()
 {
     uint32_t lcr = (1 << 0) | (1 << 1);
     uint16_t divisor = 592;
-	uint8_t divisor_least = divisor & 0xff;
-	uint8_t divisor_most = divisor >> 8;
+    uint8_t divisor_least = divisor & 0xff;
+    uint8_t divisor_most = divisor >> 8;
 
     *((unsigned char *) 0x10000000 + 3) = lcr;
     *((unsigned char *) 0x10000000 + 2) = 1 << 0;
     *((unsigned char *) 0x10000000 + 1) = 1 << 0;
     *((unsigned char *) 0x10000000 + 3) = lcr | 1 << 7;
     *((unsigned char *) 0x10000000 + 0) = divisor_least;
-	*((unsigned char *) 0x10000000 + 1) = divisor_most;
+    *((unsigned char *) 0x10000000 + 1) = divisor_most;
     *((unsigned char *) 0x10000000 + 3) = lcr;
 }
 

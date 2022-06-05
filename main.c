@@ -1,12 +1,20 @@
 #include "uart.h"
 #include "memory.h"
 
-int kmain()
+void init()
 {
     uart_init();
     memory_init();
+    paging_init();
 
-    
+    for (;;);
+}
 
-    return 0;
+int kmain()
+{
+    *((unsigned char *)0x10000000) = 'A';
+    *((unsigned char *)0x40000000) = 'B';
+
+    uart_print_newline();
+    uart_print_str("hello, world!");
 }

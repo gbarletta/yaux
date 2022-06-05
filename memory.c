@@ -3,7 +3,7 @@
 uint8_t memory_pages[MEMORY_NUM_PAGES];
 uint16_t alloced_pages;
 
-void memory_init()
+void memory_init() 
 {
     alloced_pages = 0;
     
@@ -12,7 +12,18 @@ void memory_init()
     }
 }
 
-uint64_t *memory_page_alloc(int pages)
+uint64_t *memory_page_zalloc(int pages) 
+{
+    uint64_t *ptr = memory_page_alloc(pages);
+
+    for (int i = 0; i < pages * MEMORY_PAGE_SIZE; i++) {
+        ptr[i] = 0;
+    }
+
+    return ptr;
+}
+
+uint64_t *memory_page_alloc(int pages) 
 {
     for (int i = 0; i < MEMORY_NUM_PAGES; i++) {
         if (memory_pages[i] == MEMORY_PAGE_USED) {

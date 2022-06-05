@@ -13,6 +13,7 @@ extern uint64_t kernel_heap_start[];
 
 void memory_init();
 uint64_t *memory_page_alloc(int pages);
+uint64_t *memory_page_zalloc(int pages);
 int memory_page_free(void *addr);
 
 #endif
