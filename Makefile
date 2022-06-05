@@ -1,13 +1,12 @@
-OBJS = boot.o main.o memory.o paging.o uart.o
-SOURCE = main.c memory.c paging.c uart.c
-OUT = kernel.elf
-AS = riscv64-unknown-elf-as
-LD = riscv64-unknown-elf-ld 
-CC = riscv64-unknown-elf-gcc
-EMU = qemu-system-riscv64
-CFLAGS = -g -c -Wall -Wextra -std=c11 -pedantic -nostdlib -ffreestanding -mcmodel=medany -ftree-ter
-EMUFLAGS = -monitor stdio -machine virt -bios none
-ASFLAGS =
+OBJS := boot.o main.o memory.o paging.o uart.o trap.o
+OUT := kernel.elf
+AS := riscv64-unknown-elf-as
+LD := riscv64-unknown-elf-ld 
+CC := riscv64-unknown-elf-gcc
+EMU := qemu-system-riscv64
+CFLAGS := -g -c -Wall -Wextra -std=c11 -pedantic -nostdlib -ffreestanding -mcmodel=medany -ftree-ter
+EMUFLAGS := -monitor stdio -machine virt -bios none
+ASFLAGS :=
 
 run: kernel.elf
 	$(EMU) $(EMUFLAGS) -kernel kernel.elf
@@ -26,6 +25,9 @@ memory.o: memory.c
 
 paging.o: paging.c
 	$(CC) $(CFLAGS) paging.c
+
+trap.o: trap.c
+	$(CC) $(CFLAGS) trap.c	
 
 clean:
 	rm -f $(OBJS) $(OUT)
