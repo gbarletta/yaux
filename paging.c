@@ -1,6 +1,5 @@
 #include "paging.h"
 
-extern void switch_supervisor();
 extern int kmain();
 
 uint64_t *kernel_page_table;
@@ -25,7 +24,7 @@ void paging_init()
     }
 
     riscv_write_satp((uint64_t) (0x8L << 60 | ((uint64_t) kernel_page_table) >> 12));
-    riscv_write_mstatus((1 << 11) | (1 << 5));
+    riscv_write_mstatus((1 << 11) | (1 << 5) | (1 << 3));
     riscv_write_mepc((uint64_t) &kmain);
     riscv_mret();
 }
@@ -63,10 +62,11 @@ uint64_t paging_map(uint64_t *page_table, uint64_t virt, uint64_t phys, int writ
         if (exec)  pte[vpn[0]] |= PAGING_PTE_EXEC;
         if (user)  pte[vpn[0]] |= PAGING_PTE_USER;
 
-        uart_print_u64_hex(virt);
-        uart_print_str(" -> ");
-        uart_print_u64_hex(phys);
-        uart_print_newline();
+        // uart_print_u64_hex(virt);
+        // uart_print_str(" -> ");
+        // uart_print_u64_hex(phys);
+        // uart_print_newline();
+        
         return pte[vpn[0]];
     }
 
