@@ -1,4 +1,4 @@
-OBJS := boot.o main.o memory.o paging.o uart.o trap.o
+OBJS := boot.o main.o memory.o paging.o uart.o trap.o usermode.o
 OUT := kernel.elf
 AS := riscv64-unknown-elf-as
 LD := riscv64-unknown-elf-ld 
@@ -8,11 +8,18 @@ CFLAGS := -g -c -Wall -Wextra -std=c11 -pedantic -nostdlib -ffreestanding -mcmod
 EMUFLAGS := -monitor stdio -machine virt -bios none
 ASFLAGS :=
 
+
 run: kernel.elf
 	$(EMU) $(EMUFLAGS) -kernel kernel.elf
 
+disasm: kernel.elf
+	riscv64-unknown-elf-objdump kernel.elf -D
+
 kernel.elf: link.ld $(OBJS)
 	$(LD) $(LDFLAGS) -o kernel.elf -T link.ld $(OBJS)
+
+usermode.o: usermode.s
+	$(AS) $(ASFLAGS) usermode.s -o usermode.o
 
 boot.o: boot.s
 	$(AS) $(ASFLAGS) boot.s -o boot.o

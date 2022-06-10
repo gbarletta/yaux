@@ -14,15 +14,6 @@ void paging_init()
         paging_map(kernel_page_table, addr, addr, 1, 1, 0);
     }
 
-    paging_map(kernel_page_table, 0x40000000, 0x10000000, 1, 1, 0);
-    paging_map(kernel_page_table, 0xC0000000, 0x801f0000, 1, 0, 0);
-    paging_map(kernel_page_table, 0xC0001000, 0x801f0000, 1, 0, 0);
-
-    for (int i = 0; i < 20; i++) {
-        uint64_t addr = 0xC0000000 + i * 0x1000;
-        paging_map(kernel_page_table, addr, 0x801f0000, 1, 1, 0);
-    }
-
     riscv_write_satp((uint64_t) (0x8L << 60 | ((uint64_t) kernel_page_table) >> 12));
     riscv_write_mstatus((1 << 11) | (1 << 5) | (1 << 3));
     riscv_write_mepc((uint64_t) &kmain);
