@@ -9,7 +9,6 @@ EMUFLAGS := -monitor stdio -machine virt -bios none
 ASFLAGS :=
 DEBUGFLAGS := -chardev socket,path=/tmp/gdb-socket,server=on,wait=off,id=gdb0 -gdb chardev:gdb0 -S 
 
-
 run: kernel.elf
 	$(EMU) $(EMUFLAGS) -kernel kernel.elf
 
