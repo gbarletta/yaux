@@ -10,10 +10,11 @@ void paging_init()
 
     paging_map(kernel_page_table, 0x10000000, 0x10000000, 1, 0, 0);
 
-    for (uint64_t addr = 0x80000000; addr < 0x80100000; addr += 0x1000) {
+    for (uint64_t addr = 0x80000000; addr < 0x8010a000; addr += 0x1000) {
         paging_map(kernel_page_table, addr, addr, 1, 1, 0);
     }
 
+    riscv_basic_pmp();
     riscv_write_satp((uint64_t) (0x8L << 60 | ((uint64_t) kernel_page_table) >> 12));
     riscv_write_mstatus((1 << 11) | (1 << 5) | (1 << 3));
     riscv_write_mepc((uint64_t) &kmain);

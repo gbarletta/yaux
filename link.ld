@@ -16,6 +16,8 @@ SECTIONS
     . = 0x80100000;
     PROVIDE(kernel_heap_start = .);
 
-    . = 0x80106000;
-    .usermode : { *(.usermode) }
+    . = 0x80105000;
+    .text : {
+        usermode.o;
+    }
 }

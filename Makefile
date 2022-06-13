@@ -1,4 +1,4 @@
-OBJS := boot.o main.o memory.o paging.o uart.o trap.o usermode.o
+OBJS := boot.o main.o memory.o paging.o uart.o trap.o
 OUT := kernel.elf
 AS := riscv64-unknown-elf-as
 LD := riscv64-unknown-elf-ld 
@@ -7,6 +7,7 @@ EMU := qemu-system-riscv64
 CFLAGS := -g -c -Wall -Wextra -std=c11 -pedantic -nostdlib -ffreestanding -mcmodel=medany -ftree-ter
 EMUFLAGS := -monitor stdio -machine virt -bios none
 ASFLAGS :=
+DEBUGFLAGS := -chardev socket,path=/tmp/gdb-socket,server=on,wait=off,id=gdb0 -gdb chardev:gdb0 -S 
 
 
 run: kernel.elf
