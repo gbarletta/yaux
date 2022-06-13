@@ -18,9 +18,6 @@ disasm: kernel.elf
 kernel.elf: link.ld $(OBJS)
 	$(LD) $(LDFLAGS) -o kernel.elf -T link.ld $(OBJS)
 
-usermode.o: usermode.s
-	$(AS) $(ASFLAGS) usermode.s -o usermode.o
-
 boot.o: boot.s
 	$(AS) $(ASFLAGS) boot.s -o boot.o
 
